@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>org.jenkinsci.plugins.workflow</groupId>
-	<artifactId>workflow-cps-checkpoint</artifactId>
+	<artifactId>pipeline-checkpoint-plugin</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>hpi</packaging>
 
