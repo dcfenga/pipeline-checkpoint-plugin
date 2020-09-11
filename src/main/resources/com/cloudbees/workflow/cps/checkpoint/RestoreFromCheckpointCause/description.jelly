@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core">
+    <j:set var="b" value="${it.originalBuild}"/>
+    <j:if test="${b != null}">
+        <span>Restored from ${it.checkpointName} in <a href="${rootURL}/${b.url}" class="model-link">${b.displayName}</a></span>
+    </j:if>
+</j:jelly>

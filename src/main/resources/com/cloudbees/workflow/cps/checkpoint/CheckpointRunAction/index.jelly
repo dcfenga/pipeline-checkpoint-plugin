@@ -1,0 +1,96 @@
+<!--
+The MIT License
+
+Copyright (c) 2010, CloudBees, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+  <l:layout title="${it.owner.displayName} Checkpoints">
+    <st:include page="sidepanel.jelly" it="${it.owner}" />
+    <l:main-panel>
+      <h1>Checkpoints</h1>
+      <p>
+        ${%blurb}
+      </p>
+      <table id="checkpoints" class="sortable pane bigtable">
+        <tr>
+          <th width="1"><!-- icon --></th>
+          <th>${%Name}</th>
+          <th width="1">${%Actions}</th>
+        </tr>
+        <j:forEach var="cp" items="${it.checkpoints}">
+          <tr>
+            <td width="1">
+              <img alt="snapshot" src="${imagesURL}/32x32/package.png"/>
+            </td>
+            <td data="${cp.name}">
+              ${cp.name}
+            </td>
+            <td width="1">
+              <form method="post" name="resume${cp.id}" action="${cp.id}/restart" style="display:inline-block" class="restart">
+                <input type="image" src="${imagesURL}/32x32/clock.png"
+                       name="restart" alt="${%Restart}" tooltip="${%Restart from this checkpoint}" />
+              </form>
+              <st:nbsp/>
+              <form method="post" action="${cp.id}/delete" style="display:inline-block" class="delete">
+                <input type="image" src="${resURL}/plugin/workflow-cps-checkpoint/images/32x32/edit-delete.png"
+                       name="delete" alt="${%Delete}" tooltip="${%Delete this checkpoint}" />
+              </form>
+            </td>
+          </tr>
+        </j:forEach>
+      </table>
+      <script>
+        (function() {
+
+          function submitAsync(e, success) {
+            e.onsubmit = function () {
+              new Ajax.Request(e.action, {
+                method:"POST",
+                onSuccess: success,
+                onFailure: function (t) {
+                  notificationBar.show("Failed "+ t.responseText, notificationBar.ERROR);
+                }
+              });
+              return false; // prevent submission
+            }
+          }
+
+          Behaviour.register({
+            "form.restart" : function (e) {
+              submitAsync(e,function (t) {
+                // go back to the job top page
+                window.location.href = "../../";
+              })
+            },
+
+            "form.delete" : function (e) {
+              submitAsync(e,function (t) {
+                e.up("TR").remove();
+              })
+            }
+          });
+        })();
+      </script>
+    </l:main-panel>
+  </l:layout>
+</j:jelly>

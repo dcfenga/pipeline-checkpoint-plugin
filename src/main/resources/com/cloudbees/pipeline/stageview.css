@@ -1,0 +1,30 @@
+.cbwf-checkpoint-restart {
+  width: 300px;
+}
+.cbwf-checkpoint-restart .caption {
+  font-weight: bold;
+  font-size: 1.0em;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.cbwf-checkpoint-restart table {
+  width: 100%;
+}
+.cbwf-checkpoint-restart table .name {
+  width: 60%;
+  vertical-align: middle;
+  padding-left: 10px;
+  font-weight: bold;
+}
+.cbwf-checkpoint-restart table .action {
+  width: 20%;
+}
+.cbwf-checkpoint-restart a {
+  color: inherit;
+  text-decoration: none;
+}
+.cbwf-checkpoint-restart table,
+.cbwf-checkpoint-restart td,
+.cbwf-checkpoint-restart tr {
+  color: inherit;
+}
